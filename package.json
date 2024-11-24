@@ -1,0 +1,32 @@
+{
+  "name": "resume-optimiser",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "brcypt": "^1.0.1",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "express-session": "^1.18.1",
+    "flash": "^1.1.0",
+    "http-errors": "~1.6.3",
+    "local": "^0.3.3",
+    "mongoose": "^8.8.1",
+    "morgan": "~1.9.1",
+    "nodemon": "^3.1.7",
+    "passport": "^0.7.0",
+    "passport-google-oauth": "^2.0.0",
+    "passport-google-oauth2": "^0.2.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^8.0.0",
+    "password": "^0.1.1",
+    "session": "^0.1.0"
+  }
+}

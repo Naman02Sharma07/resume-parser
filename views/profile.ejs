@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="../public/stylesheets/style.css">
+</head>
+<body>
+    <header>
+        <h1>Profile Page</h1>
+    </header>
+    <main>
+        <div class="container1">
+            <!-- Left Section: User Info and Add Project -->
+            <section class="left-section">
+                <h2>User Information</h2>
+                <form id="profile-form" action="/save" method="POST">
+                    <!-- User Name Input -->
+                    <div class="user-input">
+                        <label for="user-name">Name:</label>
+                        <input type="text" id="user-name" name="userName" placeholder="Enter your name" required>
+                    </div>
+
+                    <!-- Job Profile Input -->
+                    <div class="user-input">
+                        <label for="user-job">Job Profile:</label>
+                        <input type="text" id="user-job" name="userJob" placeholder="Enter your job profile" required>
+                    </div>
+
+                    <!-- Project Form -->
+                    <h2>Add Project</h2>
+                    <div id="project-inputs">
+                        <div class="project-input">
+                            <label for="project-title">Project Title:</label>
+                            <input type="text" id="project-title" name="projectTitle" placeholder="Enter project title" required>
+
+                            <label for="project-timeline">Timeline:</label>
+                            <input type="text" id="project-timeline" name="projectTimeline" placeholder="e.g., Jan 2023 - May 2023" required>
+
+                            <label for="project-summary">Project Summary:</label>
+                            <textarea id="project-summary" name="projectSummary" placeholder="Enter quick project summary" required></textarea>
+
+                            <label for="project-tech-stack">Technologies Used (Optional):</label>
+                            <input type="text" id="project-tech-stack" name="tech_stack[]" placeholder="Enter technology name">
+
+                            <label for="project-link">Project Link:</label>
+                            <input type="url" id="project-link" name="projectLink" placeholder="e.g., https://github.com/yourproject" required>
+                        </div>
+                    </div>
+                    <button type="button" id="add-project">+ Add Another Project</button>
+                    <button type="submit" name="submit">Save</button>
+                </form>
+            </section>
+
+            <!-- Right Section: Display Projects (Optional) -->
+            <!-- <section class="right-section">
+                <h2>Saved Projects</h2>
+                <ul id="project-list"> -->
+                    <!-- Saved projects will be displayed here -->
+                <!-- </ul>
+            </section> -->
+        </div>
+    </main>
+</body>
+</html>
