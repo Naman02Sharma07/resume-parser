@@ -6,62 +6,127 @@
     <title>Profile Page</title>
     <script src="script.js"></script>
     <link rel="stylesheet" href="../public/stylesheets/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container1 {
+            display: flex;
+            margin-top: 20px;
+            height: 100vh;
+        }
+        .left-section {
+            flex: 1;
+            padding: 20px;
+        }
+        .right-section {
+            flex: 1;
+            padding: 20px;
+            border-left: 1px solid #ccc;
+            display: none;
+        }
+        #pdf-viewer {
+            width: 100%;
+            height: calc(100vh - 40px);
+            border: none;
+        }
+        .suggestions {
+            border: 1px solid #ccc;
+            max-height: 150px;
+            overflow-y: auto;
+            position: absolute;
+            background-color: white;
+            z-index: 1000;
+        }
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Profile Page</h1>
-    </header>
-    <main>
-        <div class="container1">
-            <!-- Left Section: User Info and Add Project -->
-            <section class="left-section">
-                <h2>User Information</h2>
-                <form id="profile-form" action="/save" method="POST">
-                    <!-- User Name Input -->
-                    <div class="user-input">
-                        <label for="user-name">Name:</label>
-                        <input type="text" id="user-name" name="userName" placeholder="Enter your name" required>
-                    </div>
-
-                    <!-- Job Profile Input -->
-                    <div class="user-input">
-                        <label for="user-job">Job Profile:</label>
-                        <input type="text" id="user-job" name="userJob" placeholder="Enter your job profile" required>
-                    </div>
-
-                    <!-- Project Form -->
-                    <h2>Add Project</h2>
-                    <div id="project-inputs">
-                        <div class="project-input">
-                            <label for="project-title">Project Title:</label>
-                            <input type="text" id="project-title" name="projectTitle" placeholder="Enter project title" required>
-
-                            <label for="project-timeline">Timeline:</label>
-                            <input type="text" id="project-timeline" name="projectTimeline" placeholder="e.g., Jan 2023 - May 2023" required>
-
-                            <label for="project-summary">Project Summary:</label>
-                            <textarea id="project-summary" name="projectSummary" placeholder="Enter quick project summary" required></textarea>
-
-                            <label for="project-tech-stack">Technologies Used (Optional):</label>
-                            <input type="text" id="project-tech-stack" name="tech_stack[]" placeholder="Enter technology name">
-
-                            <label for="project-link">Project Link:</label>
-                            <input type="url" id="project-link" name="projectLink" placeholder="e.g., https://github.com/yourproject" required>
+    <div class="container">
+        <!-- <header class="text-center">
+            <h1>Profile Page</h1>
+        </header> -->
+        <main>
+            <div class="container1">
+                <section class="left-section">
+                    <h2>User Information</h2>
+                    <form id="profile-form" action="/save" method="POST" enctype="multipart/form-data">
+                        <div class="form-group position-relative">
+                            <label for="user-job">Job Profile:</label>
+                            <input type="text" class="form-control" id="user-job" name="userJob" placeholder="Enter your job profile" required>
+                            <div id="suggestions" class="suggestions"></div>
                         </div>
-                    </div>
-                    <button type="button" id="add-project">+ Add Another Project</button>
-                    <button type="submit" name="submit">Save</button>
-                </form>
-            </section>
+                        <div class="form-group">
+                            <label for="resume">Upload Resume (PDF):</label>
+                            <input type="file" class="form-control-file" id="resume" name="resume" accept=".pdf" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+                </section>
+                <section class="right-section" id="pdf-section">
+                    <h2>Uploaded Resume</h2>
+                    <iframe id="pdf-viewer" src="" frameborder="0"></iframe>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script>
+        const form = document.getElementById('profile-form');
+        const pdfViewer = document.getElementById('pdf-viewer');
+        const pdfSection = document.getElementById('pdf-section');
+        const jobInput = document.getElementById('user-job');
+        const suggestionsContainer = document.getElementById('suggestions');
 
-            <!-- Right Section: Display Projects (Optional) -->
-            <!-- <section class="right-section">
-                <h2>Saved Projects</h2>
-                <ul id="project-list"> -->
-                    <!-- Saved projects will be displayed here -->
-                <!-- </ul>
-            </section> -->
-        </div>
-    </main>
+        const jobProfiles = [
+            "Front-End Developer",
+            "Back-End Developer",
+            "Machine Learning Engineer",
+            "Data Scientist",
+            "Product Manager",
+            "Graphic Designer",
+            "Project Manager",
+            "DevOps Engineer",
+            "UX/UI Designer",
+            "Business Analyst",
+            "System Administrator"
+        ];
+
+        jobInput.addEventListener('input', function() {
+            const inputValue = this.value.toLowerCase();
+            suggestionsContainer.innerHTML = '';
+            if (inputValue) {
+                const filteredProfiles = jobProfiles.filter(profile => profile.toLowerCase().includes(inputValue));
+                filteredProfiles.forEach(profile => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.classList.add('suggestion-item');
+                    suggestionItem.textContent = profile;
+                    suggestionItem.addEventListener('click', function() {
+                        jobInput.value = profile;
+                        suggestionsContainer.innerHTML = '';
+                    });
+                    suggestionsContainer.appendChild(suggestionItem);
+                });
+            }
+        });
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const resumeFile = formData.get('resume');
+            const fileURL = URL.createObjectURL(resumeFile);
+            pdfViewer.src = fileURL;
+            pdfSection.style.display = 'block';
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!jobInput.contains(event.target) && !suggestionsContainer.contains(event.target)) {
+                suggestionsContainer.innerHTML = '';
+            }
+        });
+    </script>
 </body>
 </html>

@@ -6,7 +6,6 @@ const loginModel = require("../Server/Models/Login");
 const SignModel = require("../Server/Models/SignUp");
 const ProjectModel = require("../Server/Models/Project");
 
-
 const localStrategy = require("passport-local");
 passport.use(new localStrategy(loginModel.authenticate()));
 

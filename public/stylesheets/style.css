@@ -154,6 +154,7 @@ button:hover {
   flex-wrap: wrap;
   gap: 2rem;
   padding: 2rem;
+  margin:2rem;
 }
 
 .left-section, .right-section {
